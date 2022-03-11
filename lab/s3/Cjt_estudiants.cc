@@ -8,21 +8,23 @@ Cjt_estudiants::Cjt_estudiants() {
   
 Cjt_estudiants::~Cjt_estudiants() {}
  
-void Cjt_estudiants::afegir_estudiant(const Estudiant& est) {
-  if (nest >= MAX_NEST) throw PRO2Excepcio("Conjunt ple");
+void Cjt_estudiants::afegir_estudiant(const Estudiant& est, bool& b) {
   int i = nest-1;
-  bool b = false;
+  bool was_place_found = false;
+  b = false;
   int dni = est.consultar_DNI();
-  while (i >= 0 and not b) {  
-    if ( dni> vest[i].consultar_DNI()) b = true;
-    else {
+  vector<Estudiant> vest_copy = vest;
+  while (i >= 0 and not b and not was_place_found) {  
+    if (dni > vest[i].consultar_DNI()) was_place_found = true;
+    else if (dni < vest[i].consultar_DNI()){
       vest[i+1]=vest[i];
       --i;
-    }
+    } else b = true;
   }
   // i es la posicio mes avancada amb el DNI mes petit que dni, si n'hi ha;
   // si no, i=-1 
-  vest[i+1] = est;
+  if (b) vest = vest_copy;
+  else vest[i+1] = est;
   ++nest;
 }
 
@@ -41,11 +43,15 @@ int Cjt_estudiants::cerca_dicot(const vector<Estudiant>& vest, int left, int rig
   else return -1;  
 }  
 
-void Cjt_estudiants::modificar_estudiant(const Estudiant& est) {
+void Cjt_estudiants::modificar_estudiant(const Estudiant& est, bool& b) {
   /* Pre: existeix un estudiant al parametre implicit amb el dni d'est  */
   int x = est.consultar_DNI();
   int i = cerca_dicot(vest,0,nest-1,x);
-  vest[i] = est;
+  if (i == -1) b = false;
+  else {
+    vest[i] = est;
+    b = true;
+  }
 }    
   		
 void Cjt_estudiants::modificar_iessim(int i, const Estudiant& est) {
@@ -66,9 +72,12 @@ bool Cjt_estudiants::existeix_estudiant(int dni) const {
   return (i != -1);
 }
 
-Estudiant Cjt_estudiants::consultar_estudiant(int dni) const {
+void Cjt_estudiants::consultar_estudiant(Estudiant& est, int dni, bool& b) const {
   int i=cerca_dicot(vest,0,nest-1,dni);
-  return vest[i];
+  if (i != -1) {
+    b = true;
+    est = vest[i];
+  } else b = false;
 }
  
 Estudiant Cjt_estudiants::consultar_iessim(int i) const {
@@ -76,12 +85,8 @@ Estudiant Cjt_estudiants::consultar_iessim(int i) const {
   return vest[i-1];
 }
 
-bool comp(const Estudiant& e1, const Estudiant& e2){
-  return (e1.consultar_DNI() < e2.consultar_DNI());
-}
-
 void Cjt_estudiants::ordenar_cjt_estudiants() {
-  sort(vest.begin(),vest.begin()+nest,comp);
+  sort(vest.begin(),vest.begin()+nest,Estudiant::comp);
 }
 
 void Cjt_estudiants::llegir() {

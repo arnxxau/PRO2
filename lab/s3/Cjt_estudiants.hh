@@ -48,12 +48,12 @@ public:
    
   //Modificadores
 
-  void afegir_estudiant(const Estudiant& est);
+  void afegir_estudiant(const Estudiant& est, bool& b);
   /* Pre: el parametre implicit no conte cap estudiant amb el DNI d'est;
      el nombre d'estudiants del p.i. es mes petit que la mida maxima permesa */
   /* Post: s'ha afegit l'estudiant est al parametre implicit */
     
-  void modificar_estudiant(const Estudiant& est);
+  void modificar_estudiant(const Estudiant& est, bool& b);
   /* Pre: existeix un estudiant al parametre implicit amb el DNI d'est  */
   /* Post: l'estudiant del parametre implicit original amb el dni
      d'est, ha quedat substituit per est */
@@ -78,11 +78,11 @@ public:
     
   bool existeix_estudiant(int dni) const;
   /* Pre: dni >= 0 */
-  /* Post: el resultat indica si existeix un estudiant al paràmetre implicit
+  /* Post: el resultat indica si existeix un estudiant al parï¿½metre implicit
      amb DNI = dni */
     
-  Estudiant consultar_estudiant(int dni) const;
-  /* Pre: existeix un estudiant al parametre implícit amb DNI = dni */
+  void consultar_estudiant(Estudiant& est, int dni, bool& b) const;
+  /* Pre: existeix un estudiant al parametre implï¿½cit amb DNI = dni */
   /* Post: el resultat es l'estudiant amb DNI = dni que conte el
      parametre implicit */
     

@@ -65,7 +65,7 @@ int main() {
         else {
             cjt.escriure();
             cout << endl;
-        }// -5 write cjt
+        } // -5 write cjt
         cin >> n;
     }
 }

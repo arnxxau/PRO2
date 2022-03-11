@@ -14,11 +14,13 @@ Estudiant redondear_e_f(const Estudiant& est)
 
 // Redondear, version accion
 
-void redondear_e_a(Estudiant& est)
+Estudiant redondear_e_a(const Estudiant& est0)
 /* Pre: est tiene nota */
 /* Post: est pasa a tener su nota original redondeada */
 {
+  Estudiant est = Estudiant(est0);
   est.modificar_nota(((int) (10. * (est.consultar_nota() + 0.05))) / 10.0);
+  return est;
 }
 
 int main()
@@ -28,7 +30,7 @@ int main()
   est.llegir();
   if (est.te_nota()) { // comprobamos la precondicion
     //est=redondear_e_f(est);	// version funcion, en este caso es ineficiente
-    redondear_e_a(est);    // version accion
+    est = redondear_e_a(est);    // version accion
   }
   cout << "El estudiante con la nota redondeada, o NP: " <<endl;
   est.escriure();
