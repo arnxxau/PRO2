@@ -120,7 +120,6 @@ void Cjt_estudiants::esborrar_estudiant(int dni) {
 /* Pre: existeix un estudiant al parametre implıcit amb DNI = dni */
 /* Post: el parametre implıcit conte els mateixos estudiants que
 l’original menys l’estudiant amb DNI = dni */
-
     int x = cerca_dicot(vest, 0, nest - 1, dni);
 
     for (int i = x; i < nest - 1; ++i)
